@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Thrift.Protocols;
 using Thrift.Protocols.Entities;
+using Thrift.Protocols.Utilities;
 
 namespace Jaeger.Thrift.Agent.Zipkin
 {

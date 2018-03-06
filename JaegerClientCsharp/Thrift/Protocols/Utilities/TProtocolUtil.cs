@@ -19,7 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Thrift.Protocols.Entities;
 
-namespace Thrift.Protocols
+namespace Thrift.Protocols.Utilities
 {
     // ReSharper disable once InconsistentNaming
     public static class TProtocolUtil

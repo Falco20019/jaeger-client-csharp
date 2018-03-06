@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Thrift;
 using Thrift.Protocols;
 using Thrift.Protocols.Entities;
+using Thrift.Protocols.Utilities;
 using Thrift.Transports;
 
 namespace Jaeger.Thrift.Agent
@@ -21,9 +22,9 @@ namespace Jaeger.Thrift.Agent
   {
     public interface IAsync
     {
-      Task emitZipkinBatchAsync(List<Jaeger.Thrift.Agent.Zipkin.Span> spans, CancellationToken cancellationToken);
+      Task emitZipkinBatchAsync(List<Zipkin.Span> spans, CancellationToken cancellationToken);
 
-      Task emitBatchAsync(Jaeger.Thrift.Batch batch, CancellationToken cancellationToken);
+      Task emitBatchAsync(Batch batch, CancellationToken cancellationToken);
 
     }
 
@@ -36,7 +37,7 @@ namespace Jaeger.Thrift.Agent
 
       public Client(TProtocol inputProtocol, TProtocol outputProtocol) : base(inputProtocol, outputProtocol)      {
       }
-      public async Task emitZipkinBatchAsync(List<Jaeger.Thrift.Agent.Zipkin.Span> spans, CancellationToken cancellationToken)
+      public async Task emitZipkinBatchAsync(List<Zipkin.Span> spans, CancellationToken cancellationToken)
       {
         await OutputProtocol.WriteMessageBeginAsync(new TMessage("emitZipkinBatch", TMessageType.Oneway, SeqId), cancellationToken);
         
@@ -47,7 +48,7 @@ namespace Jaeger.Thrift.Agent
         await OutputProtocol.WriteMessageEndAsync(cancellationToken);
         await OutputProtocol.Transport.FlushAsync(cancellationToken);
       }
-      public async Task emitBatchAsync(Jaeger.Thrift.Batch batch, CancellationToken cancellationToken)
+      public async Task emitBatchAsync(Batch batch, CancellationToken cancellationToken)
       {
         await OutputProtocol.WriteMessageBeginAsync(new TMessage("emitBatch", TMessageType.Oneway, SeqId), cancellationToken);
         
@@ -158,9 +159,9 @@ namespace Jaeger.Thrift.Agent
 
     public partial class emitZipkinBatchArgs : TBase
     {
-      private List<Jaeger.Thrift.Agent.Zipkin.Span> _spans;
+      private List<Zipkin.Span> _spans;
 
-      public List<Jaeger.Thrift.Agent.Zipkin.Span> Spans
+      public List<Zipkin.Span> Spans
       {
         get
         {
@@ -205,12 +206,12 @@ namespace Jaeger.Thrift.Agent
                 if (field.Type == TType.List)
                 {
                   {
-                    Spans = new List<Jaeger.Thrift.Agent.Zipkin.Span>();
+                    Spans = new List<Zipkin.Span>();
                     TList _list0 = await iprot.ReadListBeginAsync(cancellationToken);
                     for(int _i1 = 0; _i1 < _list0.Count; ++_i1)
                     {
-                      Jaeger.Thrift.Agent.Zipkin.Span _elem2;
-                      _elem2 = new Jaeger.Thrift.Agent.Zipkin.Span();
+                      Zipkin.Span _elem2;
+                      _elem2 = new Zipkin.Span();
                       await _elem2.ReadAsync(iprot, cancellationToken);
                       Spans.Add(_elem2);
                     }
@@ -254,7 +255,7 @@ namespace Jaeger.Thrift.Agent
             await oprot.WriteFieldBeginAsync(field, cancellationToken);
             {
               await oprot.WriteListBeginAsync(new TList(TType.Struct, Spans.Count), cancellationToken);
-              foreach (Jaeger.Thrift.Agent.Zipkin.Span _iter3 in Spans)
+              foreach (Zipkin.Span _iter3 in Spans)
               {
                 await _iter3.WriteAsync(oprot, cancellationToken);
               }
@@ -290,9 +291,9 @@ namespace Jaeger.Thrift.Agent
 
     public partial class emitBatchArgs : TBase
     {
-      private Jaeger.Thrift.Batch _batch;
+      private Batch _batch;
 
-      public Jaeger.Thrift.Batch Batch
+      public Batch Batch
       {
         get
         {
@@ -336,7 +337,7 @@ namespace Jaeger.Thrift.Agent
               case 1:
                 if (field.Type == TType.Struct)
                 {
-                  Batch = new Jaeger.Thrift.Batch();
+                  Batch = new Batch();
                   await Batch.ReadAsync(iprot, cancellationToken);
                 }
                 else

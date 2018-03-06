@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Thrift.Protocols;
 using Thrift.Protocols.Entities;
+using Thrift.Protocols.Utilities;
 
 namespace Jaeger.Thrift.Agent
 {
@@ -17,13 +18,13 @@ namespace Jaeger.Thrift.Agent
   public partial class RateLimitingSamplingStrategy : TBase
   {
 
-    public short MaxTracesPerSecond { get; set; }
+    public double MaxTracesPerSecond { get; set; }
 
     public RateLimitingSamplingStrategy()
     {
     }
 
-    public RateLimitingSamplingStrategy(short maxTracesPerSecond) : this()
+    public RateLimitingSamplingStrategy(double maxTracesPerSecond) : this()
     {
       this.MaxTracesPerSecond = maxTracesPerSecond;
     }
@@ -47,9 +48,9 @@ namespace Jaeger.Thrift.Agent
           switch (field.ID)
           {
             case 1:
-              if (field.Type == TType.I16)
+              if (field.Type == TType.Double)
               {
-                MaxTracesPerSecond = await iprot.ReadI16Async(cancellationToken);
+                MaxTracesPerSecond = await iprot.ReadDoubleAsync(cancellationToken);
                 isset_maxTracesPerSecond = true;
               }
               else
@@ -86,10 +87,10 @@ namespace Jaeger.Thrift.Agent
         await oprot.WriteStructBeginAsync(struc, cancellationToken);
         var field = new TField();
         field.Name = "maxTracesPerSecond";
-        field.Type = TType.I16;
+        field.Type = TType.Double;
         field.ID = 1;
         await oprot.WriteFieldBeginAsync(field, cancellationToken);
-        await oprot.WriteI16Async(MaxTracesPerSecond, cancellationToken);
+        await oprot.WriteDoubleAsync(MaxTracesPerSecond, cancellationToken);
         await oprot.WriteFieldEndAsync(cancellationToken);
         await oprot.WriteFieldStopAsync(cancellationToken);
         await oprot.WriteStructEndAsync(cancellationToken);
