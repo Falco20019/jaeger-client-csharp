@@ -11,8 +11,6 @@ namespace Jaeger.Senders
 {
     public abstract class ThriftSender : ISender
     {
-        internal const int EMIT_BATCH_OVERHEAD = 33;
-
         private Process process;
         protected readonly ITProtocolFactory protocolFactory;
         private readonly List<Thrift.Span> spanBuffer;
