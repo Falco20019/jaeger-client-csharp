@@ -31,13 +31,7 @@ namespace Jaeger.Samplers
             {
                 using (var client = new WebClient())
                 {
-                    var response = @"{
-  ""strategyType"": 1,
-  ""probabilisticSampling"": null,
-  ""rateLimitingSampling"": {
-    ""maxTracesPerSecond"": 2.1
-  }
-}";//client.DownloadString(new UriBuilder("http", this.hostPort){Query = $"service={serviceName}"}.Uri);
+                    var response = client.DownloadString(new UriBuilder("http", this.hostPort){Query = $"service={serviceName}"}.Uri);
                     return JsonConvert.DeserializeObject<SamplingStrategyResponse>(response, new JsonSerializerSettings{Culture = CultureInfo.InvariantCulture});
                 }
             }
